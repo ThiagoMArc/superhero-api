@@ -16,12 +16,10 @@ import java.util.List;
 @AllArgsConstructor
 public class CharacterDTO {
     private long id;
-    //@NotNull(message = "Necessário informar o nome do personagem")
-    @NotBlank(message = "Necessário informar o nome do personagem")
+    @NotBlank(message = "Character Name Is Required")
     private String name;
     private String birthName;
     private String city;
-    //@NotNull(message = "Necessário informar habilidades do personagem")
-    @NotEmpty(message = "Necessaŕio informar habilidades do personagem")
+    @NotEmpty(message = "Character Habilities Are Required")
     private List<@NotNull String> habilities;
 }

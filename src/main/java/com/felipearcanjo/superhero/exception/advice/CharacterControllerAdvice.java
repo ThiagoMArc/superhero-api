@@ -24,8 +24,10 @@ public class CharacterControllerAdvice {
     public ErrorDTO handleCharacterNotFoundError(CharacterNotFoundException characterNotFoundException){
         ErrorDTO errorDTO = new ErrorDTO();
         errorDTO.setStatus(HttpStatus.NOT_FOUND.value());
-        errorDTO.setMessage("Personagem não encontrado");
+        errorDTO.setMessage("Character Not Found");
         errorDTO.setTimestamp(LocalDateTime.now());
+        errorDTO.setValidationErrors(getErrorsMap(List.of()));
+
         return errorDTO;
     }
 
@@ -38,7 +40,7 @@ public class CharacterControllerAdvice {
                                                     .toList();
         ErrorDTO errorDTO = new ErrorDTO();
         errorDTO.setStatus(HttpStatus.BAD_REQUEST.value());
-        errorDTO.setMessage("Ocorreram erros de validação");
+        errorDTO.setMessage("There Are Validation Errors");
         errorDTO.setTimestamp(LocalDateTime.now());
         errorDTO.setValidationErrors(getErrorsMap(errors));
 
