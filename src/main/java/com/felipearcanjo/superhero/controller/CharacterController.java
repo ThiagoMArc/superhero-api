@@ -16,7 +16,7 @@ import java.util.List;
 
 @Tag(name= "Character", description = "Character management APIs")
 @RestController
-@RequestMapping("api/character")
+@RequestMapping("api/characters")
 @RequiredArgsConstructor
 public class CharacterController {
 
@@ -42,7 +42,7 @@ public class CharacterController {
     }
 
     @Operation(summary = "Retrieve a character by name")
-    @GetMapping("/{name}/name")
+    @GetMapping("/names/{name}")
     public CharacterDTO findCharacterByName(@PathVariable String name){
         return characterService.getByName(name);
     }
