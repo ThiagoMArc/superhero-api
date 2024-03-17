@@ -8,7 +8,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_DB: develop
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: nwlevel677289#
 
   superhero:
     image: superhero-api:latest
@@ -17,6 +17,6 @@ services:
     environment:
       POSTGRES_URL: jdbc:postgresql://172.20.0.2:5432/develop
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: nwlevel677289#
     depends_on:
       - postgres

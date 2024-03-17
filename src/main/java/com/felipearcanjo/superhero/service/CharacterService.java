@@ -2,6 +2,7 @@ package com.felipearcanjo.superhero.service;
 
 import com.felipearcanjo.superhero.converter.DTOConverter;
 import com.felipearcanjo.superhero.dto.CharacterDTO;
+import com.felipearcanjo.superhero.exception.custom.CharacterAlreadyExistsException;
 import com.felipearcanjo.superhero.exception.custom.CharacterNotFoundException;
 import com.felipearcanjo.superhero.model.Character;
 import com.felipearcanjo.superhero.repository.CharacterRepository;
@@ -38,21 +39,29 @@ public class CharacterService {
     }
 
     public CharacterDTO save(CharacterDTO characterDTO){
+        Character characterDb = characterRepository.findByName(characterDTO.getName());
+
+        if(characterDb != null && 
+           characterDTO.getBirthName().toLowerCase().equals(characterDb.getBirthName().toLowerCase()))
+            throw new CharacterAlreadyExistsException();
+
         Character character = characterRepository.save(Character.convert(characterDTO));
         return DTOConverter.convert(character);
     }
 
     public void delete(long characterId){
-        Character character = characterRepository.findById(characterId).orElseThrow(CharacterNotFoundException::new);
+        Character character = characterRepository.findById(characterId)
+                                                 .orElseThrow(CharacterNotFoundException::new);
         characterRepository.delete(character);
     }
 
     public CharacterDTO getByName(String characterName){
         Character character = characterRepository.findByName(characterName);
-        if(character != null){
-            return DTOConverter.convert(character);
-        }
-        throw new CharacterNotFoundException();
+
+        if(character == null)
+            throw new CharacterNotFoundException();
+
+        return DTOConverter.convert(character);
     }
 
     public CharacterDTO editCharacter(long characterId, CharacterDTO characterDTO){

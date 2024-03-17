@@ -1,6 +1,7 @@
 package com.felipearcanjo.superhero.exception.advice;
 
 import com.felipearcanjo.superhero.dto.ErrorDTO;
+import com.felipearcanjo.superhero.exception.custom.CharacterAlreadyExistsException;
 import com.felipearcanjo.superhero.exception.custom.CharacterNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -28,6 +29,19 @@ public class CharacterControllerAdvice {
         errorDTO.setTimestamp(LocalDateTime.now());
         errorDTO.setValidationErrors(getErrorsMap(List.of()));
 
+        return errorDTO;
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(CharacterAlreadyExistsException.class)
+    public ErrorDTO handleCharacterAlreadyExistsError(CharacterAlreadyExistsException characterAlreadyExistsException){
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setStatus(HttpStatus.BAD_REQUEST.value());
+        errorDTO.setMessage("Character already exists with the given name and birthName");
+        errorDTO.setTimestamp(LocalDateTime.now());
+        errorDTO.setValidationErrors(getErrorsMap(List.of()));
+        
         return errorDTO;
     }
 

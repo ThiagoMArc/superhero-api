@@ -42,7 +42,7 @@ public class CharacterController {
     }
 
     @Operation(summary = "Retrieve a character by name")
-    @GetMapping("/names/{name}")
+    @GetMapping("/name/{name}")
     public CharacterDTO findCharacterByName(@PathVariable String name){
         return characterService.getByName(name);
     }

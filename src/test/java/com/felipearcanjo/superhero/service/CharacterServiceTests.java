@@ -2,6 +2,7 @@ package com.felipearcanjo.superhero.service;
 
 import com.felipearcanjo.superhero.converter.DTOConverter;
 import com.felipearcanjo.superhero.dto.CharacterDTO;
+import com.felipearcanjo.superhero.exception.custom.CharacterAlreadyExistsException;
 import com.felipearcanjo.superhero.exception.custom.CharacterNotFoundException;
 import com.felipearcanjo.superhero.model.Character;
 import com.felipearcanjo.superhero.repository.CharacterRepository;
@@ -96,6 +97,7 @@ public class CharacterServiceTests {
         //Arrange
         Character character = getCharacter(10L, "Spider Man", "Peter Parker", "New York", List.of("Wall Crawling", "Super Strength"));
         CharacterDTO characterDTO = DTOConverter.convert(character);
+        Mockito.when(characterRepository.findByName(Mockito.anyString())).thenReturn(null);
         Mockito.when(characterRepository.save(Mockito.any())).thenReturn(character);
 
         //Act
@@ -103,6 +105,22 @@ public class CharacterServiceTests {
 
         //Assert
         Assertions.assertEquals("Spider Man", newCharacter.getName());
+    }
+
+    @Test
+    public void saveShouldNotBeAbleToCreateExistingCharacter(){
+        //Arrange
+        Character character = getCharacter(50L, "Gambit", "Remy Lebeau", "Paris", List.of("Kinect energy manipulation", "Super Strength"));
+        Mockito.when(characterRepository.findByName(Mockito.anyString())).thenReturn(character);
+        CharacterDTO characterDTO = DTOConverter.convert(character);
+
+        //Act
+        var result = Assertions.assertThrows(CharacterAlreadyExistsException.class, () -> {
+            characterService.save(characterDTO);
+        });
+
+        //Assert
+        Assertions.assertTrue(result instanceof CharacterAlreadyExistsException);
     }
 
     @Test
