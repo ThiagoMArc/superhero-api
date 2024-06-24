@@ -15,7 +15,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      POSTGRES_URL: jdbc:postgresql://172.20.0.2:5432/develop
+      POSTGRES_URL: jdbc:postgresql://172.18.0.2:5432/develop
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: nwlevel677289#
     depends_on:
