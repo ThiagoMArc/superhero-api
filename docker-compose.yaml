@@ -5,18 +5,24 @@ services:
     image: postgres:latest
     ports:
       - "5432:5432"
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_DB: develop
       POSTGRES_PASSWORD: nwlevel677289#
 
   superhero:
-    image: superhero-api:latest
+    image: superhero-api:smp1
     ports:
       - "8080:8080"
     environment:
-      POSTGRES_URL: jdbc:postgresql://172.20.0.2:5432/develop
+      POSTGRES_URL: jdbc:postgresql://172.18.0.2:5432/develop
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: nwlevel677289#
     depends_on:
-      - postgres
+      postgres:
+        condition: service_started
+
+volumes:
+  db-data:

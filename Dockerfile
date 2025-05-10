@@ -1,4 +1,4 @@
-FROM maven:3.9.4-amazoncorretto-21 AS MAVEN_BUILD
+FROM maven:3.9.4-amazoncorretto-21 AS maven_build
 COPY ./ ./
 RUN mvn clean package
 FROM openjdk:21
