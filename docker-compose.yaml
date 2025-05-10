@@ -15,7 +15,7 @@ services:
   superhero:
     image: superhero-api:smp1
     ports:
-      - "8080:8080"
+      - "8081:8081"
     environment:
       POSTGRES_URL: jdbc:postgresql://172.18.0.2:5432/develop
       POSTGRES_USER: postgres
